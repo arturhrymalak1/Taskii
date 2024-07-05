@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:taskii/screens/new_taskii.dart';
 import '../model/todo.dart';
 import '../constrants/colors.dart';
 import '../widgets/todo_item.dart';
@@ -71,7 +72,7 @@ class _HomeState extends State<Home> {
                     bottom: 20,
                     left: 20,
                   ),
-                  padding: EdgeInsets.only(bottom: 5),       
+                  padding: EdgeInsets.only(bottom: 5),
                 ),
               ),
               Container(
@@ -84,8 +85,11 @@ class _HomeState extends State<Home> {
                       color: Colors.white,
                     ),
                   ),
-                  onPressed: () async {
-                    
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Newtask()),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: tdBlue,
