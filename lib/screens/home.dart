@@ -63,37 +63,19 @@ class _HomeState extends State<Home> {
             ),
           ),
           Align(
-            alignment: Alignment.bottomCenter,
-            child: Row(children: [
+            alignment: Alignment.bottomRight,
+            child: Column(children: [
               Expanded(
                 child: Container(
                   margin: EdgeInsets.only(
                     bottom: 20,
-                    right: 20,
                     left: 20,
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.grey,
-                        offset: Offset(0.0, 0.0),
-                        blurRadius: 10.0,
-                        spreadRadius: 0.0,
-                      ),
-                    ],
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: TextField(
-                    controller: _todoController,
-                    decoration: InputDecoration(
-                        hintText: 'Add a new Taskii', border: InputBorder.none),
-                  ),
+                  padding: EdgeInsets.only(bottom: 5),       
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(bottom: 20, right: 20),
+                margin: EdgeInsets.only(bottom: 20, left: 280),
                 child: ElevatedButton(
                   child: Text(
                     '+',
@@ -102,8 +84,8 @@ class _HomeState extends State<Home> {
                       color: Colors.white,
                     ),
                   ),
-                  onPressed: () {
-                    _addToDoItem(_todoController.text);
+                  onPressed: () async {
+                    
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: tdBlue,
