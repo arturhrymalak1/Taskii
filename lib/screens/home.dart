@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:taskii/screens/new_taskii.dart';
 import '../model/todo.dart';
 import '../constrants/colors.dart';
