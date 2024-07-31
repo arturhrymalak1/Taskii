@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:taskii/screens/new_taskii.dart';
 import '../model/todo.dart';
 import '../constrants/colors.dart';
 import '../widgets/todo_item.dart';
@@ -63,15 +62,27 @@ class _HomeState extends State<Home> {
             ),
           ),
           Align(
-            alignment: Alignment.bottomRight,
+            alignment: Alignment.bottomCenter,
             child: Column(children: [
               Expanded(
                 child: Container(
-                  margin: EdgeInsets.only(
-                    bottom: 20,
-                    left: 20,
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  decoration: BoxDecoration(
+                    color:  Colors.white,
+                    boxShadow: const [BoxShadow(
+                      color: Colors.grey,
+                      offset: Offset(0.0, 0.0),
+                      blurRadius: 10.0,
+                      spreadRadius: 0.0,
+                      ),],
+                      borderRadius: BorderRadius.circular(10),
                   ),
-                  padding: EdgeInsets.only(bottom: 5),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: 'Adicione uma Taskii',
+                      border: InputBorder.none,
+                    ),
+                  ),
                 ),
               ),
               Container(
@@ -84,12 +95,7 @@ class _HomeState extends State<Home> {
                       color: Colors.white,
                     ),
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Newtask()),
-                    );
-                  },
+                  onPressed: () {},
                   style: ElevatedButton.styleFrom(
                     backgroundColor: tdBlue,
                     minimumSize: Size(60, 60),
