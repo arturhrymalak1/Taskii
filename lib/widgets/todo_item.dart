@@ -3,7 +3,7 @@ import '../constrants/colors.dart';
 import '../model/todo.dart';
 
 class ToDoItem extends StatelessWidget {
-  final ToDo todo;
+  final Todo todo;
   final onToDoChanged;
   final onDeleteItem;
 
@@ -33,7 +33,7 @@ class ToDoItem extends StatelessWidget {
           color: tdBlue,
         ),
         title: Text(
-          todo.todoText!,
+          todo.title!,
           style: TextStyle(
             fontSize: 16,
             color: tdBlack,

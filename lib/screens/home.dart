@@ -11,13 +11,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final todosList = ToDo.todoList();
-  List<ToDo> _foundToDo = [];
-  final _todoController = TextEditingController();
 
   @override
   void initState() {
-    _foundToDo = todosList;
     super.initState();
   }
 
@@ -49,12 +45,7 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                       ),
-                      for (ToDo todoo in _foundToDo.reversed)
-                        ToDoItem(
-                          todo: todoo,
-                          onToDoChanged: _handleToDoChange,
-                          onDeleteItem: _deleteToDoItem,
-                        ), //Taskii item
+                      //Taskii item
                     ],
                   ),
                 )
@@ -63,19 +54,26 @@ class _HomeState extends State<Home> {
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: Column(children: [
+            child: Row(children: [
               Expanded(
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  margin: EdgeInsets.only(
+                    bottom: 20,
+                    right: 20,
+                    left: 20,
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5,),
                   decoration: BoxDecoration(
-                    color:  Colors.white,
-                    boxShadow: const [BoxShadow(
-                      color: Colors.grey,
-                      offset: Offset(0.0, 0.0),
-                      blurRadius: 10.0,
-                      spreadRadius: 0.0,
-                      ),],
-                      borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.grey,
+                        offset: Offset(0.0, 0.0),
+                        blurRadius: 10.0,
+                        spreadRadius: 0.0,
+                      ),
+                    ],
+                    borderRadius: BorderRadius.circular(30),
                   ),
                   child: TextField(
                     decoration: InputDecoration(
@@ -86,7 +84,7 @@ class _HomeState extends State<Home> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(bottom: 20, left: 280),
+                margin: EdgeInsets.only(bottom: 20, right: 20,),
                 child: ElevatedButton(
                   child: Text(
                     '+',
@@ -110,44 +108,6 @@ class _HomeState extends State<Home> {
     ); //Scafold
   }
 
-  void _handleToDoChange(ToDo todo) {
-    setState(() {
-      todo.isDone = !todo.isDone;
-    });
-  }
-
-  void _deleteToDoItem(String id) {
-    setState(() {
-      todosList.removeWhere((item) => item.id == id);
-    });
-  }
-
-  void _addToDoItem(String toDo) {
-    setState(() {
-      todosList.add(ToDo(
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
-        todoText: toDo,
-      ));
-    });
-    _todoController.clear();
-  }
-
-  void _runFilter(String enteredKeyword) {
-    List<ToDo> results = [];
-    if (enteredKeyword.isEmpty) {
-      results = todosList;
-    } else {
-      results = todosList
-          .where((item) => item.todoText!
-              .toLowerCase()
-              .contains(enteredKeyword.toLowerCase()))
-          .toList();
-    }
-
-    setState(() {
-      _foundToDo = results;
-    });
-  }
 
   Widget searchBox() {
     return Container(
@@ -155,7 +115,6 @@ class _HomeState extends State<Home> {
       decoration: BoxDecoration(
           color: Colors.white, borderRadius: BorderRadius.circular(20)),
       child: TextField(
-        onChanged: (value) => _runFilter(value),
         decoration: InputDecoration(
           contentPadding: EdgeInsets.all(0),
           prefixIcon: Icon(
