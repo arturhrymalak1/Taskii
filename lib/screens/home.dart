@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-import '../model/todo.dart';
+import 'package:taskii/model/todo.dart';
+import 'package:taskii/repository/taskii_repository.dart';
 import '../constrants/colors.dart';
-import '../widgets/todo_item.dart';
 
-class Home extends StatefulWidget {
-  Home({super.key});
+class Homee extends StatefulWidget {
+  Homee({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<Homee> createState() => _HomeeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeeState extends State<Homee> {
+  final _formKey = GlobalKey<FormState>();
+  final _titleController = TextEditingController();
 
   @override
   void initState() {
@@ -22,92 +24,118 @@ class _HomeState extends State<Home> {
     return Scaffold(
       backgroundColor: tdBGColor,
       appBar: _buildAppBar(),
-      body: Stack(
-        children: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-            child: Column(
-              children: [
-                searchBox(),
-                Expanded(
-                  child: ListView(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(
-                          top: 50,
-                          bottom: 20,
-                        ),
-                        child: Text(
-                          "All Taskii's",
-                          style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                      //Taskii item
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Row(children: [
-              Expanded(
-                child: Container(
-                  margin: EdgeInsets.only(
-                    bottom: 20,
-                    right: 20,
-                    left: 20,
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5,),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.grey,
-                        offset: Offset(0.0, 0.0),
-                        blurRadius: 10.0,
-                        spreadRadius: 0.0,
-                      ),
-                    ],
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Adicione uma Taskii',
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(bottom: 20, right: 20,),
-                child: ElevatedButton(
-                  child: Text(
-                    '+',
-                    style: TextStyle(
-                      fontSize: 40,
-                      color: Colors.white,
-                    ),
-                  ),
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: tdBlue,
-                    minimumSize: Size(60, 60),
-                    elevation: 10,
-                  ),
-                ),
-              ),
-            ]),
-          ),
-        ],
-      ),
+      body: buildScreen(),
     ); //Scafold
   }
 
+  Stack buildScreen() {
+    var listOfTaski = [];
+    return Stack(
+      children: [
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+          child: Column(
+            children: [
+              searchBox(),
+              Expanded(
+                child: ListView(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: 50,
+                        bottom: 20,
+                      ),
+                      child: Text(
+                        "All Taskii's",
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    //Taskii item
+
+                    const Center(
+                      child: Text('Não existem tickets cadastrados'),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        listOfTaski = await TaskiiRepository.findAll();
+                        setState(() {});
+                      },
+                      child: const Text("Atualizar"),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Row(children: [
+            Expanded(
+              child: Container(
+                margin: EdgeInsets.only(
+                  bottom: 20,
+                  right: 20,
+                  left: 20,
+                ),
+                padding: EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 5,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.grey,
+                      offset: Offset(0.0, 0.0),
+                      blurRadius: 10.0,
+                      spreadRadius: 0.0,
+                    ),
+                  ],
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: TextField(
+                  controller: _titleController,
+                  decoration: InputDecoration(
+                    hintText: 'Adicione uma Taskii',
+                    border: InputBorder.none,
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(
+                bottom: 20,
+                right: 20,
+              ),
+              child: ElevatedButton(
+                child: Text(
+                  '+',
+                  style: TextStyle(
+                    fontSize: 40,
+                    color: Colors.white,
+                  ),
+                ),
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    save();
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: tdBlue,
+                  minimumSize: Size(60, 60),
+                  elevation: 10,
+                ),
+              ),
+            ),
+          ]),
+        ),
+      ],
+    );
+  }
 
   Widget searchBox() {
     return Container(
@@ -157,5 +185,30 @@ class _HomeState extends State<Home> {
         ],
       ),
     );
+  }
+
+  void save() async {
+    try {
+      final taski = Todo(
+        description: _titleController.text,
+      );
+      final id = await TaskiiRepository.insert(taski);
+      SnackBar snackBar;
+      if (id != null) {
+        snackBar = SnackBar(content: Text('A Taski foi salva com sucesso!!!'));
+      } else {
+        snackBar = const SnackBar(
+          content:
+              Text('Lamento, houve um problema ao tentar salvar a taski!!!'),
+        );
+      }
+      // Exibir a SnackBar
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } catch (error) {
+      SnackBar snackBar = const SnackBar(
+        content: Text('Ops. Tivemos um problema técnico!!!'),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
   }
 }

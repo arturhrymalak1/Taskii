@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:taskii/screens/home.dart';
+
+import 'package:taskii/screens/teste.dart';
 
 void main() {
   runApp(const MyApp());

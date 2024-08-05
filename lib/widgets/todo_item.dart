@@ -8,11 +8,11 @@ class ToDoItem extends StatelessWidget {
   final onDeleteItem;
 
   const ToDoItem({
-    Key? key,
+    super.key,
     required this.todo,
-    required this.onToDoChanged,
-    required this.onDeleteItem,
-  }) : super(key: key);
+    this.onToDoChanged,
+    this.onDeleteItem,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class ToDoItem extends StatelessWidget {
           color: tdBlue,
         ),
         title: Text(
-          todo.title!,
+          todo.description!,
           style: TextStyle(
             fontSize: 16,
             color: tdBlack,

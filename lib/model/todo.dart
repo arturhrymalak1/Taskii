@@ -1,16 +1,21 @@
 class Todo {
-  String? id;
-  String? title;
+  int? id;
+  String? description;
   bool isDone;
 
   Todo({
-    required this.id,
-    required this.title,
+    this.id,
+    required this.description,
     this.isDone = false,
   });
 
-  factory Todo.fromSqfliteDatabase(Map<String, dynamic> map) => Todo(
-        id: map['id']?.toInt() ?? 0,
-        title: map['title'] ?? '',
+  Map<String, Object?> toMap() => {
+        'id': id,
+        'title': description,
+      };
+
+  factory Todo.fromMap(Map<String, Object?> map) => Todo(
+        id: map['id'] as int,
+        description: map['description'] as String,
       );
 }
