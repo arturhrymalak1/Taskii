@@ -190,7 +190,7 @@ class _HomeeState extends State<Homee> {
   void save() async {
     try {
       final taski = Todo(
-        description: _titleController.text,
+        title: _titleController.text,
       );
       final id = await TaskiiRepository.insert(taski);
       SnackBar snackBar;

@@ -1,17 +1,17 @@
+
+
 import 'package:flutter/material.dart';
+
+import 'package:taskii/repository/taskii_repository.dart';
 import '../constrants/colors.dart';
 import '../model/todo.dart';
 
 class ToDoItem extends StatelessWidget {
   final Todo todo;
-  final onToDoChanged;
-  final onDeleteItem;
 
   const ToDoItem({
     super.key,
     required this.todo,
-    this.onToDoChanged,
-    this.onDeleteItem,
   });
 
   @override
@@ -21,7 +21,6 @@ class ToDoItem extends StatelessWidget {
       child: ListTile(
         onTap: () {
           // print('Click on a Taskii item');
-          onToDoChanged(todo);
         },
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
@@ -33,7 +32,7 @@ class ToDoItem extends StatelessWidget {
           color: tdBlue,
         ),
         title: Text(
-          todo.description!,
+          todo.title!,
           style: TextStyle(
             fontSize: 16,
             color: tdBlack,
@@ -54,8 +53,7 @@ class ToDoItem extends StatelessWidget {
             iconSize: 18,
             icon: Icon(Icons.delete),
             onPressed: () {
-              //
-              onDeleteItem(todo.id);
+              TaskiiRepository.delete;
             },
           ),
         ),

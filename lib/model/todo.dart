@@ -1,21 +1,21 @@
 class Todo {
   int? id;
-  String? description;
+  String? title;
   bool isDone;
 
   Todo({
     this.id,
-    required this.description,
+    required this.title,
     this.isDone = false,
   });
 
   Map<String, Object?> toMap() => {
         'id': id,
-        'title': description,
+        'title': title,
       };
 
   factory Todo.fromMap(Map<String, Object?> map) => Todo(
         id: map['id'] as int,
-        description: map['description'] as String,
+        title: map['title'] as String,
       );
 }

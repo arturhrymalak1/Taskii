@@ -38,11 +38,12 @@ class _HomeState extends State<Home> {
           return Stack(
             children: [
               const Center(
-                child: Text('Não existem tickets cadastrados'),
+                child: Text('Não existem taskis cadastrados'),
               ),
               TextButton(
                 onPressed: () async {
                   listOfTaski = await TaskiiRepository.findAll();
+                  print(listOfTaski);
                   setState(() {});
                 },
                 child: const Text("Atualizar"),
@@ -66,10 +67,10 @@ class _HomeState extends State<Home> {
                           color: Colors.white,
                           boxShadow: const [
                             BoxShadow(
-                              color: Colors.grey,
-                              offset: Offset(0.0, 0.0),
-                              blurRadius: 10.0,
-                              spreadRadius: 0.0),
+                                color: Colors.grey,
+                                offset: Offset(0.0, 0.0),
+                                blurRadius: 10.0,
+                                spreadRadius: 0.0),
                           ],
                           borderRadius: BorderRadius.circular(30),
                         ),
@@ -122,14 +123,20 @@ class _HomeState extends State<Home> {
             ],
           );
         }
-        return ListView.builder(
-          itemCount: snapshot.data!.length,
-          itemBuilder: (context, index) => ToDoItem(todo:listOfTaski[index],)
+        listOfTaski = snapshot.data!;
+        return Stack(
+          children: [
+            ListView.builder(
+                reverse: false,
+                itemCount: listOfTaski.length,
+                itemBuilder: (context, index) => ToDoItem(
+                      todo: listOfTaski[index],
+                    ))
+          ],
         );
       },
     );
   }
-
 
   AppBar _buildAppBar() {
     return AppBar(
@@ -159,7 +166,7 @@ class _HomeState extends State<Home> {
   void save() async {
     try {
       final taski = Todo(
-        description: _titleController.text,
+        title: _titleController.text,
       );
       final id = await TaskiiRepository.insert(taski);
       SnackBar snackBar;
@@ -174,6 +181,7 @@ class _HomeState extends State<Home> {
       // Exibir a SnackBar
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } catch (error) {
+      print(error);
       SnackBar snackBar = const SnackBar(
         content: Text('Ops. Tivemos um problema técnico!!!'),
       );

@@ -9,7 +9,7 @@ class DbHelper {
       version: 1,
       onCreate: (db, _) async {
         await db.execute(
-            'CREATE TABLE taski (id INTEGER PRIMARY KEY AUTOINCREMENT, description VARCHAR(255) NOT NULL);');
+            'CREATE TABLE taski (id INTEGER PRIMARY KEY AUTOINCREMENT, title VARCHAR(255) NOT NULL);');
       },
     );
   }
