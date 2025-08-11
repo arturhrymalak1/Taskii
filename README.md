@@ -1,8 +1,6 @@
 # taskii
 
-A new Flutter project.
-
-## Getting Started
+A task app.
 
 This project is a starting point for a Flutter application.
 
